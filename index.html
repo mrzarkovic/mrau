@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<!--
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+     KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+-->
+<html>
+<head>
+    <!--
+        Customize this policy to fit your own app's needs. For more guidance, see:
+            https://github.com/apache/cordova-plugin-whitelist/blob/master/README.md#content-security-policy
+        Some notes:
+            * gap: is required only on iOS (when using UIWebView) and is needed for JS->native communication
+            * https://ssl.gstatic.com is required only on Android and is needed for TalkBack to function properly
+            * Disables use of inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
+                * Enable inline JS: add 'unsafe-inline' to default-src
+        -->
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="msapplication-tap-highlight" content="no">
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
+    <title>Angular training</title>
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/index.css">
+    <link rel="stylesheet" type="text/css" href="css/angular-material.min.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="css/table.css">
+</head>
+<body>
+<div id="app" ng-controller="GameController as gameCtrl" class="hidden">
+    <nav class="navbar navbar-default navbar-static-top">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                        aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#"><img src="img/logo.png"> Mrau</a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse in navbar-collapse" id="navbar" aria-expanded="false">
+                <form name="addPlayerForm" ng-submit="addPlayerForm.$valid && addPlayer()"
+                      class="navbar-form navbar-left" novalidate>
+                    <div class="form-group">
+                        <input class="form-control" type="text" name="newPlayer" ng-model="player.name"
+                               placeholder="Ime igrača" required>
+                    </div>
+                    <input type="submit" value="Dodaj igrača" class="btn btn-primary form-control">
+                </form>
+                <div class="nav-checkbox navbar-left">
+                    <md-checkbox md-no-ink aria-label="Should Annul Score?" ng-model="shouldAnnulScore" class="md-primary">(e.g. 555 = 0, 44 = 0, ...)</md-checkbox>
+                    <md-checkbox md-no-ink aria-label="New player gets average score?" ng-model="newPlayerAverageScore" class="md-primary">Prosečan rezultat</md-checkbox>
+                </div>
+                <button ng-click="confirmResetTable()" class="btn btn-danger navbar-btn">Nova igra</button>
+            </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+    </nav>
+    <div class="content">
+        <div class="mrau-table" ng-show="totalPlayers">
+            <!-- Players -->
+            <div class="mrau-row players-row">
+                <div class="cell-compact fixed">
+                    <span>#</span>
+                </div>
+                <div class="cell-greedy" ng-repeat="player in players" ng-show="player.name">
+                    <div ng-click="confirmDeletePlayer(player.id, player.name)" ng-class="{'active-player':players[dealerIndex].id === player.id}"
+                         class="player-name">{{player.name}}
+                    </div>
+                </div>
+                <div class="cell-compact fixed"></div>
+            </div>
+            <!-- Finished games -->
+            <div class="mrau-row" ng-repeat="game in games track by $index">
+                <div class="cell-compact fixed">
+                    {{$index + 1}}
+                </div>
+                <div class="cell-greedy" ng-repeat="playerScore in game track by $index">
+                    <div class="result">{{playerScore}}</div>
+                </div>
+                <div class="cell-compact fixed"></div>
+            </div>
+            <!-- Active game -->
+            <div class="mrau-row">
+                <div class="cell-compact fixed">{{totalGames + 1}}</div>
+                <div class="cell-greedy input-cell" ng-repeat="player in players track by $index" ng-show="player.name">
+                    <input class="form-control" type="number" ng-model="scores[$index]"
+                           ng-change="changeResultPreview($index)" required>
+                </div>
+                <div class="cell-compact fixed" class="compact">
+                    <a class="btn btn-success btn-md" ng-click="saveRound()">
+                        <span class="glyphicon glyphicon-ok"></span>
+                    </a>
+                </div>
+            </div>
+            <!-- Results -->
+            <div class="mrau-row">
+                <div class="cell-compact fixed">=</div>
+                <div class="cell-greedy" ng-repeat="player in players track by $index" ng-show="player.name">
+                    <div class="totalResult">
+                        <span class="totalScore" ng-hide="inputActive[$index]">{{player.totalScore}}</span>
+                        <span class="preview-score" ng-show="inputActive[$index]">{{ player.previewScore }}</span>
+                    </div>
+                </div>
+                <div class="cell-compact fixed"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="js/jquery-2.2.1.min.js"></script>
+<script type="text/javascript" src="js/bootstrap.min.js"></script>
+<script type="text/javascript" src="js/angular.min.js"></script>
+<script type="text/javascript" src="js/angular-animate.min.js"></script>
+<script type="text/javascript" src="js/angular-aria.min.js"></script>
+<script type="text/javascript" src="js/angular-messages.min.js"></script>
+<script type="text/javascript" src="js/angular-material.min.js"></script>
+<script type="text/javascript" src="js/ng-cordova.min.js"></script>
+<script type="text/javascript" src="js/app.js"></script>
+<script type="text/javascript" src="js/fastclick.min.js"></script>
+<script type="text/javascript" src="js/index.js"></script>
+<script type="text/javascript" src="cordova.js"></script>
+</body>
+</html>

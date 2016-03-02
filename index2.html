@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<!--
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+     KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+-->
+<html>
+<head>
+    <!--
+        Customize this policy to fit your own app's needs. For more guidance, see:
+            https://github.com/apache/cordova-plugin-whitelist/blob/master/README.md#content-security-policy
+        Some notes:
+            * gap: is required only on iOS (when using UIWebView) and is needed for JS->native communication
+            * https://ssl.gstatic.com is required only on Android and is needed for TalkBack to function properly
+            * Disables use of inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
+                * Enable inline JS: add 'unsafe-inline' to default-src
+        -->
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="msapplication-tap-highlight" content="no">
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
+    <title>Angular training</title>
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/index.css">
+    <link rel="stylesheet" type="text/css" href="css/angular-material.min.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="css/table.css">
+    <link rel="stylesheet" type="text/css" href="css/scroller.css">
+</head>
+<body>
+<div id="app" ng-controller="GameController as gameCtrl" class="hidden full-height">
+    <div class="content full-height clearfix">
+        <div class="mrau-table full-height">
+            <div class="mrau-row players-row full-height">
+                <div class="player-column cell-greedy full-height" ng-repeat="player in players">
+                    <div class="player-name">{{player.name}}</div>
+                    <div class="player-total-score" ng-hide="player.previewScore">{{player.totalScore}}</div>
+                    <div class="player-total-score" ng-show="player.previewScore">{{player.previewScore}}</div>
+                    <div class="player-score-input-holder">
+                        <div class="scroller-wrap">
+                            <div class="score-input-holder">
+                                <input data-result-for="{{player.id}}" type="number" ng-model="player.newScore" value="player.newScore" ng-change="changeResultPreview(player)" ng-disabled="!player.unlockInput">
+                            </div>
+                            <div class="scroller-body" data-player-id="{{player.id}}" ng-class="{disabled:!player.unlockInput}">
+                                <div class="scrollable-content">
+                                    <ul>
+                                        <li></li>
+                                        <li></li>
+                                        <li data-order="{{$index}}" data-value="{{i}}" class="scrollable-item" ng-repeat="i in getNumbers() track by $index">{{i}}</li>
+                                        <li></li>
+                                        <li></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="add-player-btn-holder">
+                        <button class="btn add-score-btn" ng-click="addScore(player)" ng-disabled="!player.unlockInput">Add score</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="js/jquery-2.2.1.min.js"></script>
+<script type="text/javascript" src="js/bootstrap.min.js"></script>
+<script type="text/javascript" src="js/angular.min.js"></script>
+<script type="text/javascript" src="js/angular-animate.min.js"></script>
+<script type="text/javascript" src="js/angular-aria.min.js"></script>
+<script type="text/javascript" src="js/angular-messages.min.js"></script>
+<script type="text/javascript" src="js/angular-material.min.js"></script>
+<script type="text/javascript" src="js/ng-cordova.min.js"></script>
+<script type="text/javascript" src="js/app2.js"></script>
+<script type="text/javascript" src="js/fastclick.min.js"></script>
+<script type="text/javascript" src="js/index.js"></script>
+<!--<script type="text/javascript" src="js/scroll-counter.js"></script>-->
+<!--<script type="text/javascript" src="cordova.js"></script>-->
+</body>
+</html>
