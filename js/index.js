@@ -46,7 +46,9 @@ var app = {
 
         var domElement = document.getElementById("app");
         angular.bootstrap(domElement, ['mrau']);
-        app.receivedEvent('deviceready');
+        //app.receivedEvent('deviceready');
+
+        app.setupScroller();
     },
     onDomLoaded: function () {
         console.log("web");
@@ -81,7 +83,7 @@ var app = {
     setupScroller: function () {
         var scrollTimerHandle = "";
         var positionTimerHandle = "";
-        var boxSize = 60;
+        var boxSize = 40;
 
         $(".scroller-body").each(function () {
             $(this).scroll(function () {
@@ -102,7 +104,7 @@ var app = {
                             // Set selected item
                             $("[data-order]").removeClass("selected");
                             $("[data-order='" + order + "']").addClass("selected");
-                            var value = $("[data-order='" + order + "']").html();
+                            var value = $("[data-order='" + order + "']").find(".number-holder").html();
                             var playerInput = $("[data-result-for='" + playerId + "']");
                             playerInput.val(value);
                             playerInput.trigger("change");
@@ -125,9 +127,9 @@ var app = {
                 var input = $("[data-value='" + val + "']");
                 var inputOrder = $(input).data("order");
                 var value = 0;
-                value = boxSize * parseInt(inputOrder - 1);
+                value = boxSize * inputOrder;
                 console.log(value);
-                //$("[data-player-id='" + playerId + "']").scrollTop(value);
+                $("[data-player-id='" + playerId + "']").scrollTop(value);
             });
         });
     }

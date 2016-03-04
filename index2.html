@@ -53,14 +53,14 @@
                     <div class="player-score-input-holder">
                         <div class="scroller-wrap">
                             <div class="score-input-holder">
-                                <input data-result-for="{{player.id}}" type="number" ng-model="player.newScore" value="player.newScore" ng-change="changeResultPreview(player)" ng-disabled="!player.unlockInput">
+                                <input data-result-for="{{player.id}}" type="number" ng-model="player.newScore" ng-change="changeResultPreview(player)" ng-disabled="!player.unlockInput">
                             </div>
                             <div class="scroller-body" data-player-id="{{player.id}}" ng-class="{disabled:!player.unlockInput}">
                                 <div class="scrollable-content">
                                     <ul>
                                         <li></li>
                                         <li></li>
-                                        <li data-order="{{$index}}" data-value="{{i}}" class="scrollable-item" ng-repeat="i in getNumbers() track by $index">{{i}}</li>
+                                        <li data-order="{{$index}}" data-value="{{i}}" class="scrollable-item" ng-repeat="i in getNumbers() track by $index"><div class="number-holder">{{i}}</div></li>
                                         <li></li>
                                         <li></li>
                                     </ul>

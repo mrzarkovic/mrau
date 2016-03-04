@@ -75,24 +75,28 @@ header h1 {
 .player-column {
 	/*width: 100px;*/
 	/*float: left;*/
+	height: 100%;
 	text-align: center;
 	position: relative;
 }
 
 .player-column .player-name {
 	font-size: 200%;
+	height: 10%;
 	font-weight: bold;
 }
 
 .player-column .player-total-score {
 	font-size: 400%;
+	height: 10%;
 	line-height: 80%;
 	font-weight: bold;
 }
 
 .player-column .player-score-input-holder {
 	padding: 10px;
-	padding-bottom: 70px;
+	height: 70%;
+	/*padding-bottom: 50px;*/
 }
 .mrau-table .mrau-row.players-row {height: 100% !important;}
 
@@ -106,15 +110,16 @@ header h1 {
 
 .player-column .add-player-btn-holder {
 	/*width: 100px;*/
-	position: absolute;
+	height: 10%;
+	/*position: absolute;
 	bottom: 0px;
 	left: 0px;
-	right: 0px;
+	right: 0px;*/
 	padding: 10px;
 }
 
 .player-column .add-player-btn-holder .add-score-btn {
-	font-size: 200%;
+	/*font-size: 200%;*/
 	width: 100%;
 }
 

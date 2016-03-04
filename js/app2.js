@@ -128,12 +128,17 @@ angular.module('mrau', ['ngCordova', 'ngMaterial'])
             player.previewScore = 0;
             player.unlockInput = false;
             $scope.scoresAdded++;
+            // If scores added for all the players
             if ($scope.scoresAdded == $scope.totalPlayers) {
                 angular.forEach($scope.players, function(player, key){
                     player.unlockInput = true;
-                    player.newScore = '';
+                    player.newScore = 0;
                 });
                 $scope.scoresAdded = 0;
+                // Reset scroller position
+                $(".scroller-body").each(function () {
+                    $(this).scrollTop(0);
+                });
             }
         };
 
