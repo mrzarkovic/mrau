@@ -12,7 +12,7 @@ var app = {
     // Bind any events that are required on startup. Common events are:
     // 'load', 'deviceready', 'offline', and 'online'.
     bindEvents: function () {
-        document.addEventListener('deviceready', this.onDeviceReady, false);
+        //document.addEventListener('deviceready', this.onDeviceReady, false);
         // Web testing
         document.addEventListener('DOMContentLoaded', this.onDomLoaded, false);
     },
@@ -81,11 +81,12 @@ var app = {
         console.log('Received Event: ' + id);
     },
     setupScroller: function () {
-        var scrollTimerHandle = "";
-        var positionTimerHandle = "";
         var boxSize = 40;
 
         $(".scroller-body").each(function () {
+            $(this).scrollTop(80);
+            var scrollTimerHandle = "";
+            var positionTimerHandle = "";
             $(this).scroll(function () {
                 var playerId = $(this).data("player-id");
                 var preScrollPosition = parseInt(this.scrollTop / boxSize) * boxSize;
@@ -94,25 +95,39 @@ var app = {
 
                 _this = this;
 
-
-
                 clearInterval(scrollTimerHandle);
                 scrollTimerHandle = setTimeout(function () {
                     positionTimerHandle = setInterval(function () {
                         if (_this.scrollTop == newScrollPosition) {
                             clearInterval(positionTimerHandle);
                             // Set selected item
-                            $("[data-order]").removeClass("selected");
-                            $("[data-order='" + order + "']").addClass("selected");
-                            var value = $("[data-order='" + order + "']").find(".number-holder").html();
+                            var items = $(_this).find(".scrollable-item");
+                            var value = 0;
+                            items.each(function(){
+                                $(this).removeClass("selected");
+                                if ($(this).data("order") == order) {
+                                    $(this).addClass("selected");
+                                    value = $(this).find(".number-holder").html();
+                                }
+                            });
                             var playerInput = $("[data-result-for='" + playerId + "']");
                             playerInput.val(value);
                             playerInput.trigger("change");
                         } else {
                             if (_this.scrollTop > newScrollPosition) {
-                                _this.scrollTop--;
+                                var diff = _this.scrollTop - newScrollPosition;
+                                if (diff > boxSize) {
+                                    _this.scrollTop = _this.scrollTop - boxSize;
+                                } else {
+                                    _this.scrollTop--;
+                                }
                             } else {
-                                _this.scrollTop++;
+                                var diff = newScrollPosition - _this.scrollTop;
+                                if (diff > boxSize) {
+                                    _this.scrollTop = _this.scrollTop + boxSize;
+                                } else {
+                                    _this.scrollTop++;
+                                }
                             }
                         }
                     }, 10);
@@ -128,7 +143,6 @@ var app = {
                 var inputOrder = $(input).data("order");
                 var value = 0;
                 value = boxSize * inputOrder;
-                console.log(value);
                 $("[data-player-id='" + playerId + "']").scrollTop(value);
             });
         });

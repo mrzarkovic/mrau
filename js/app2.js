@@ -44,12 +44,12 @@ angular.module('mrau', ['ngCordova', 'ngMaterial'])
         $scope.getNumbers = function(){
             var numbers = [];
             for (i = 0; i < 25; i++) {
-                numbers[i] = i;
+                numbers.push(i);
             }
-            /*
+
             numbers.unshift(-10);
             numbers.unshift(-20);
-            */
+
             return numbers;
         };
 
@@ -137,7 +137,7 @@ angular.module('mrau', ['ngCordova', 'ngMaterial'])
                 $scope.scoresAdded = 0;
                 // Reset scroller position
                 $(".scroller-body").each(function () {
-                    $(this).scrollTop(0);
+                    $(this).scrollTop(80);
                 });
             }
         };
@@ -196,6 +196,10 @@ angular.module('mrau', ['ngCordova', 'ngMaterial'])
                 if (firstDigit != number[i]) return false;
             }
             return true;
+        };
+
+        $scope.clearNewScore = function(player) {
+            player.newScore = '';
         };
 
         /**

@@ -42,34 +42,42 @@
     <link rel="stylesheet" type="text/css" href="css/scroller.css">
 </head>
 <body>
-<div id="app" ng-controller="GameController as gameCtrl" class="hidden full-height">
+<div id="app" ng-controller="GameController as gameCtrl" class="hidden full-height" ng-class="{'keyboard-on':isVisibleKey}">
     <div class="content full-height clearfix">
         <div class="mrau-table full-height">
             <div class="mrau-row players-row full-height">
-                <div class="player-column cell-greedy full-height" ng-repeat="player in players">
-                    <div class="player-name">{{player.name}}</div>
-                    <div class="player-total-score" ng-hide="player.previewScore">{{player.totalScore}}</div>
-                    <div class="player-total-score" ng-show="player.previewScore">{{player.previewScore}}</div>
-                    <div class="player-score-input-holder">
-                        <div class="scroller-wrap">
-                            <div class="score-input-holder">
-                                <input data-result-for="{{player.id}}" type="number" ng-model="player.newScore" ng-change="changeResultPreview(player)" ng-disabled="!player.unlockInput">
-                            </div>
-                            <div class="scroller-body" data-player-id="{{player.id}}" ng-class="{disabled:!player.unlockInput}">
-                                <div class="scrollable-content">
-                                    <ul>
-                                        <li></li>
-                                        <li></li>
-                                        <li data-order="{{$index}}" data-value="{{i}}" class="scrollable-item" ng-repeat="i in getNumbers() track by $index"><div class="number-holder">{{i}}</div></li>
-                                        <li></li>
-                                        <li></li>
-                                    </ul>
+                <div class="player-column cell-greedy full-height player-column{{$index+1}}" ng-repeat="player in players track by $index">
+                    <div class="Aligner">
+                        <div class="Aligner-item Aligner-item--top">
+                            <div class="player-name">{{player.name}}</div>
+                            <div class="player-total-score" ng-hide="player.previewScore">{{player.totalScore}}</div>
+                            <div class="player-total-score" ng-show="player.previewScore">{{player.previewScore}}</div>
+                        </div>
+                        <div class="Aligner-item Aligner-item--middle">
+                            <div class="player-score-input-holder">
+                            <div class="scroller-wrap">
+                                <div class="score-input-holder">
+                                    <input data-result-for="{{player.id}}" type="number" ng-model="player.newScore" ng-click="clearNewScore(player)" ng-change="changeResultPreview(player)" ng-disabled="!player.unlockInput">
+                                </div>
+                                <div class="scroller-body" data-player-id="{{player.id}}" ng-class="{disabled:!player.unlockInput}">
+                                    <div class="scrollable-content">
+                                        <ul>
+                                            <li></li>
+                                            <li></li>
+                                            <li data-order="{{$index}}" data-value="{{i}}" class="scrollable-item" ng-repeat="i in getNumbers() track by $index"><div class="number-holder">{{i}}</div></li>
+                                            <li></li>
+                                            <li></li>
+                                        </ul>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="add-player-btn-holder">
-                        <button class="btn add-score-btn" ng-click="addScore(player)" ng-disabled="!player.unlockInput">Add score</button>
+                        </div>
+                        <div class="Aligner-item Aligner-item--bottom">
+                            <div class="add-player-btn-holder">
+                            <button class="btn add-score-btn" ng-click="addScore(player)" ng-disabled="!player.unlockInput">Add score</button>
+                        </div>
+                        </div>
                     </div>
                 </div>
             </div>

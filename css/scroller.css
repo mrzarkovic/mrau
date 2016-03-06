@@ -3,10 +3,10 @@
 	position: relative;
 	overflow: hidden;
 	height: 200px;
-	width: 100px;
+	width: 100%;
 	margin: 0 auto;
-	top: 50%;
-	margin-top: -100px;
+	/*top: 50%;*/
+	/*margin-top: -100px;*/
 	border: 0px solid #efefef;
 }
 
@@ -17,6 +17,10 @@
 	left: 0;
 	right: -17px;
 	overflow-y: auto;
+}
+
+.scroller-body .scrollable-content {
+	margin-right: 17px;
 }
 
 .scroller-body.disabled {
@@ -34,13 +38,12 @@
 	font-size: 30px;
 	height: 40px;
 	line-height: 40px;
-	color: #129264;
-	background: #0EBF7F;
+	color: #fff;
 }
 
 .scroller-body ul li .number-holder {
-	margin-right: 17px;
-	padding-left: 17px;
+	/*!*margin-right: 17px;**/
+	/*padding-left: 17px;*/
 }
 
 .scroller-body ul li.selected {
@@ -62,10 +65,10 @@
 	line-height: 55px;
 	height: 50px;
 	font-weight: bold;
-	padding-left: 16px;
+	/*padding-left: 16px;*/
 	width: 100px;
 	border: 0;
-	color: #129264;
+	color: #333;
 	text-align: center;
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
