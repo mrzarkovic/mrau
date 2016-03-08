@@ -199,6 +199,7 @@ angular.module('mrau', ['ngCordova', 'ngMaterial'])
         };
 
         $scope.clearNewScore = function(player) {
+            console.log("Input clicked!");
             player.newScore = '';
         };
 

@@ -82,13 +82,14 @@ var app = {
     },
     setupScroller: function () {
         var boxSize = 40;
-
+        var scrollTimerHandle = '';
+        var positionTimerHandle = '';
         $(".scroller-body").each(function () {
             $(this).scrollTop(80);
-            var scrollTimerHandle = "";
-            var positionTimerHandle = "";
+
             $(this).scroll(function () {
                 var playerId = $(this).data("player-id");
+                console.log("Scroller #" + playerId + " started.");
                 var preScrollPosition = parseInt(this.scrollTop / boxSize) * boxSize;
                 var newScrollPosition = this.scrollTop - preScrollPosition < boxSize / 2 ? preScrollPosition : preScrollPosition + boxSize;
                 var order = newScrollPosition / boxSize;
@@ -113,6 +114,7 @@ var app = {
                             var playerInput = $("[data-result-for='" + playerId + "']");
                             playerInput.val(value);
                             playerInput.trigger("change");
+                            console.log("Scroller #" + playerId + " stopped.")
                         } else {
                             if (_this.scrollTop > newScrollPosition) {
                                 var diff = _this.scrollTop - newScrollPosition;
